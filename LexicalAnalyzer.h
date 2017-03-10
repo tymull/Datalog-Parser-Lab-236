@@ -25,6 +25,7 @@
 #include "LineComment.h"
 #include "BlockComment.h"
 #include "WhiteSpace.h"
+#include "MyUndefined.h"
 
 using namespace std;
 
@@ -34,14 +35,12 @@ class LexicalAnalyzer
 protected:
 	vector <char> input_file;
 	vector <char> temp_file;
-	//int current_iteration = 0; //this marks where in input_file we begin reading I THINK I DON'T NEED THIS
 public:
 	LexicalAnalyzer(char* input_file_in);
 	~LexicalAnalyzer(); //&input file as a paramater
 	vector <char> getInputFile();
 	void analyze(char* input_file); //can change value of input_file
 	char getChar(int it);
-	//void reset(); //replaces the input_file with the new temp_file to restore the original.
 	vector <Token> scan(); //will scan file using all automata subclasses and output tokens
 
 };

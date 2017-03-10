@@ -1,11 +1,8 @@
 #include "WhiteSpace.h"
 
 
-WhiteSpace::WhiteSpace()//(vector <char> input_file)
-//:Automaton(input_file)
+WhiteSpace::WhiteSpace()
 {
-	// Nothing to do
-//	this->input_file = input_file;
 }
 
 

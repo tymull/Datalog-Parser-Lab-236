@@ -26,6 +26,7 @@ bool Rules::s(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -41,6 +42,7 @@ bool Rules::e(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -56,6 +58,7 @@ bool Rules::l(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -71,6 +74,7 @@ bool Rules::u(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }

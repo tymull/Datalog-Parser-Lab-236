@@ -26,6 +26,7 @@ bool Schemes::s(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -36,10 +37,12 @@ bool Schemes::e2(int it, const vector <char>& input_file)
 	if (getChar(it, input_file) == 'e')
 	{
 		readings++;
+		it++;
 		return s(it, input_file);
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -55,6 +58,7 @@ bool Schemes::m(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -70,6 +74,7 @@ bool Schemes::e1(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -85,6 +90,7 @@ bool Schemes::h(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -100,6 +106,7 @@ bool Schemes::c(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }

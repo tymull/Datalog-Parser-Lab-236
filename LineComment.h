@@ -15,4 +15,3 @@ public:
 	void resetReadings();
 	Token tokenize(unsigned int& current_line, int it, const vector <char>& input_file);
 };
-

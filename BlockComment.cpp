@@ -19,8 +19,10 @@ int BlockComment::getReadings()
 
 bool BlockComment::endBlock(int it, const vector <char>& input_file)
 {
-	if (getChar(it, input_file) == '\xff') //MAKE SURE READING IN EOF or else do ==input_file.end()
+	if (it == input_file.size()-1) //if it has reached the EOF
 	{
+		readings = 0;
+		extra_lines = 0; //reset extra_lines for next time
 		return false; //can't have eof before '#'
 	}
 	else if (getChar(it, input_file) == '#')
@@ -51,8 +53,10 @@ bool BlockComment::endBlock(int it, const vector <char>& input_file)
 
 bool BlockComment::isBlock(int it, const vector <char>& input_file)
 {
-	if (getChar(it, input_file) == '\xff')
+	if (it == input_file.size()-1) //if it has reached the EOF
 	{
+		readings = 0;
+		extra_lines = 0; //reset extra_lines for next time
 		return false; //can't have eof before '|'
 	}
 	else if (getChar(it, input_file) == '\n') //catches new lines within read()
@@ -87,6 +91,7 @@ bool BlockComment::lineOrBlock(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0;
 		return false;//anything else would be a line comment
 	}
 }
@@ -118,6 +123,7 @@ Token BlockComment::tokenize(unsigned int& current_line, int it, const vector <c
 	string content(input_file.begin() + it, input_file.begin() + it + readings); // for some crazy reason, can't put input_file[it]
 	int line = current_line; //this returns line that it started on
 	current_line += extra_lines; //this adds new lines from method to Lexical Analyzer that would have been skipped
+	extra_lines = 0; //reset extra_lines for next time
 	Token token(name, content, line);
 	return token;
 }

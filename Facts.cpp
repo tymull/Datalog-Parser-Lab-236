@@ -26,6 +26,7 @@ bool Facts::s(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -41,6 +42,7 @@ bool Facts::t(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -56,6 +58,7 @@ bool Facts::c(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -71,6 +74,7 @@ bool Facts::a(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }

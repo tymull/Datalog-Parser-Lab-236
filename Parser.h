@@ -9,31 +9,35 @@
 
 class Parser
 {
+private:
+	int it = 0; //initialize first iteration of Token vector
+	vector <Token> tokens;
 public:
-	Parser();
+	Parser(vector <Token> tokens);
 	~Parser();
-	void ignoreComments(vector <Token>& tokens, int& it);
+	int getIt();
+	vector <Token> getTokens();
+	void ignoreComments();
 	//below are the functions that represent the grammar of the datalog Program
-	void datalogProgram(vector <Token>& tokens, int& it);
-	void scheme(vector <Token>& tokens, int& it);
-	void schemeList(vector <Token>& tokens, int& it);
-	void idList(vector <Token>& tokens, int& it);
-	void fact(vector <Token>& tokens, int& it);
-	void factList(vector <Token>& tokens, int& it);
-	void rule(vector <Token>& tokens, int& it);
-	void ruleList(vector <Token>& tokens, int& it);
-	void headPredicate(vector <Token>& tokens, int& it);
-	void predicate(vector <Token>& tokens, int& it);
-	void predicateList(vector <Token>& tokens, int& it);
-	void parameter(vector <Token>& tokens, int& it);
-	void parameterList(vector <Token>& tokens, int& it);
-	void expression(vector <Token>& tokens, int& it);
-	void myOperator(vector <Token>& tokens, int& it);
-	void query(vector <Token>& tokens, int& it);
-	void queryList(vector <Token>& tokens, int& it);
-	void stringList(vector <Token>& tokens, int& it);
+	void datalogProgram();
+	void scheme();
+	void schemeList();
+	void idList();
+	void fact();
+	void factList();
+	void rule();
+	void ruleList();
+	void headPredicate();
+	void predicate();
+	void predicateList();
+	void parameter();
+	void parameterList();
+	void expression();
+	void myOperator();
+	void query();
+	void queryList();
+	void stringList();
 	//this next method will determine if the input is valid
-	string validate(vector <Token>& tokens);
-	
-};
+	string validate();
 
+};

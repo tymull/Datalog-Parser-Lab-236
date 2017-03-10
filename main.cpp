@@ -8,9 +8,10 @@ int main(int argc, char* argv[])
 {
 	LexicalAnalyzer lexi(argv[1]);
 	//cout << lexi.scan();
+	//vector <Token> tokens = lexi.scan();
+	Parser datalog_parser(lexi.scan());
 
-	Parser datalog_parser;
-	cout << datalog_parser.validate(lexi.scan());
+	cout << datalog_parser.validate();
 
 	return 0;
 }

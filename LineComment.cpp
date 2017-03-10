@@ -19,7 +19,7 @@ int LineComment::getReadings()
 
 bool LineComment::isLine(int it, const vector <char>& input_file)
 {
-	if (getChar(it, input_file) == '\xff' || getChar(it, input_file) == '\n')
+	if (it == input_file.size()-1 || getChar(it, input_file) == '\n')
 	{
 		return true; //this ends the line comment
 	}
@@ -38,7 +38,7 @@ bool LineComment::lineOrBlock(int it, const vector <char>& input_file)
 	{
 		return false; //false because should be block comment
 	}
-	else if (getChar(it, input_file) == '\xff' || getChar(it, input_file) == '\n')
+	else if (it == input_file.size()-1 || getChar(it, input_file) == '\n')
 	{
 		return true; //this ends the line comment
 	}
@@ -79,4 +79,3 @@ Token LineComment::tokenize(unsigned int& current_line, int it, const vector <ch
 	Token token(name, content, current_line);
 	return token;
 }
-

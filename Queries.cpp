@@ -26,6 +26,7 @@ bool Queries::s(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -36,10 +37,12 @@ bool Queries::e2(int it, const vector <char>& input_file)
 	if (getChar(it, input_file) == 'e')
 	{
 		readings++;
+		it++;
 		return s(it, input_file);
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -55,6 +58,7 @@ bool Queries::i(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -70,6 +74,7 @@ bool Queries::r(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -85,6 +90,7 @@ bool Queries::e1(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
@@ -100,6 +106,7 @@ bool Queries::u(int it, const vector <char>& input_file)
 	}
 	else
 	{
+		readings = 0; //because this could be an ID
 		return false;
 	}
 }
