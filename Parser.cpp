@@ -564,7 +564,7 @@ string Parser::validate()
 	catch (Token t)
 	{
 		stringstream output;
-		output << "Failure!\n\t" << t.getToken();
+		output << "Failure!\n  " << t.getToken(); //two spaces instead of \t
 		return output.str();
 	}
 	return "Success!";
