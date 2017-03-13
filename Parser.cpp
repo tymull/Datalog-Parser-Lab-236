@@ -24,6 +24,12 @@ vector <Token> Parser::getTokens()
 }
 
 
+DatalogProgram Parser::getDatalogProgram()
+{
+	return dp;
+}
+
+
 void Parser::ignoreComments() //this should be called every time it is incremented
 {
 	//cout << "\n\nHERE ARE THE TOKENS:" << tokens[it] << endl << endl;
@@ -37,6 +43,10 @@ void Parser::ignoreComments() //this should be called every time it is increment
 
 void Parser::datalogProgram()
 {
+	//these will be used to gather information
+	//Predicate head_pred();
+	//Predicate pred();
+
 	ignoreComments();
 	if (tokens[it].getName() != "SCHEMES") //input must start with token name SCHEMES
 	{
