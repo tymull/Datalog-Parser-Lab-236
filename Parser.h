@@ -13,7 +13,16 @@ class Parser
 private:
 	int it = 0; //initialize first iteration of Token vector
 	vector <Token> tokens;
-	DatalogProgram dp;
+	DatalogProgram dp; //will hold vectors of schemes, facts, etc.
+ //below used to store info to be pushed into dp vectors
+//	Predicate scheme;
+//	Predicate fact;
+	Predicate pred; //this will be cleared and reused for each part
+	RuleDP my_rule;
+//	Predicate query
+	Parameter param; //used to push info into predicate
+	stringstream param_stream;
+	vector <Predicate> pred_list;//used to push preds onto rule or query
 public:
 	Parser(vector <Token> tokens);
 	~Parser();
@@ -21,6 +30,7 @@ public:
 	vector <Token> getTokens();
 	DatalogProgram getDatalogProgram();
 	void ignoreComments();
+	void match(string item);
 	//below are the functions that represent the grammar of the datalog Program
 	void datalogProgram();
 	void scheme();

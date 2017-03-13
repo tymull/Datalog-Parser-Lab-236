@@ -1,5 +1,5 @@
 #include "Expression.h"
-
+//this class is probably useless...
 Expression::Expression()
 {
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Parameter.h"
-
+//Expression class may be completely useless...
 class Expression :
   public Parameter
 {

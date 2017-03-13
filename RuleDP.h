@@ -14,10 +14,12 @@ private:
   Predicate headPred;
   vector <Predicate> predicates;
 public:
-  RuleDP(Predicate headPred, Predicate pred);
+  RuleDP();//Predicate headPred, Predicate pred);
   ~RuleDP();
   Predicate getHeadPred();
   vector <Predicate> getPredicates();
+  void setHeadPred(Predicate headPred);
   void addPredicate(Predicate pred);
-
+  void clearPredicates();
+  string toString();
 };

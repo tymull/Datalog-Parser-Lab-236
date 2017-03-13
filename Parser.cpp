@@ -32,7 +32,6 @@ DatalogProgram Parser::getDatalogProgram()
 
 void Parser::ignoreComments() //this should be called every time it is incremented
 {
-	//cout << "\n\nHERE ARE THE TOKENS:" << tokens[it] << endl << endl;
 	while (tokens[it].getName() == "COMMENT")
 	//will ensure that "COMMENT" is effectively ignored and not compared to other token
 	{
@@ -41,14 +40,9 @@ void Parser::ignoreComments() //this should be called every time it is increment
 }
 
 
-void Parser::datalogProgram()
+void Parser::match(string item)
 {
-	//these will be used to gather information
-	//Predicate head_pred();
-	//Predicate pred();
-
-	ignoreComments();
-	if (tokens[it].getName() != "SCHEMES") //input must start with token name SCHEMES
+	if (tokens[it].getName() != item)
 	{
 		throw tokens[it]; //bad input throw to output the token
 	}
@@ -57,76 +51,31 @@ void Parser::datalogProgram()
 		it++; //input is good so far, move to next token
 		ignoreComments();
 	}
-	if (tokens[it].getName() != "COLON") //COLON should follow SCHEMES
-	{
-		throw tokens[it];
-	}
-	else
-	{
-		it++;
-		ignoreComments();
-	}
+}
+
+
+void Parser::datalogProgram()
+{
+	ignoreComments();
+	match("SCHEMES"); //input must start with token name SCHEMES
+	match("COLON");//COLON should follow SCHEMES
+
 	scheme(); //recurse to a different part of grammar
 	schemeList(); //since it is passed by reference, it will continue to increment through the vector through recursions
 
-	if (tokens[it].getName() != "FACTS")
-	{
-		throw tokens[it];
-	}
-	else
-	{
-		it++;
-		ignoreComments();
-	}
-	if (tokens[it].getName() != "COLON")
-	{
-		throw tokens[it];
-	}
-	else
-	{
-		it++;
-		ignoreComments();
-	}
+	match("FACTS");
+	match("COLON");
+
 	factList();
 
-	if (tokens[it].getName() != "RULES")
-	{
-		throw tokens[it];
-	}
-	else
-	{
-		it++;
-		ignoreComments();
-	}
-	if (tokens[it].getName() != "COLON")
-	{
-		throw tokens[it];
-	}
-	else
-	{
-		it++;
-		ignoreComments();
-	}
+	match("RULES");
+	match("COLON");
+
 	ruleList();
 
-	if (tokens[it].getName() != "QUERIES")
-	{
-		throw tokens[it];
-	}
-	else
-	{
-		it++;
-		ignoreComments();
-	}
-	if (tokens[it].getName() != "COLON")
-	{
-		throw tokens[it];
-	}
-	else
-	{
-		it++;
-		ignoreComments();
-	}
+	match("QUERIES");
+	match("COLON");
+
 	query();
 	queryList();
 }
@@ -140,6 +89,7 @@ void Parser::scheme()
 	}
 	else
 	{
+		pred.setName(tokens[it].getContent()); //sets scheme name
 		it++;
 		ignoreComments();
 	}
@@ -158,9 +108,13 @@ void Parser::scheme()
 	}
 	else
 	{
+		param.setType(tokens[it].getName());//sets param type
+		param.setValue(tokens[it].getContent());//sets param value
+		pred.addParameter(param); //pushes param onto vector
 		it++;
 		ignoreComments();
 	}
+
 	idList();
 
 	if (tokens[it].getName() != "RIGHT_PAREN")
@@ -169,6 +123,8 @@ void Parser::scheme()
 	}
 	else
 	{
+		dp.addScheme(pred); //pushes pred onto scheme vector
+		pred.clearParams(); //get ready for next predicate
 		it++;
 		ignoreComments();
 	}
@@ -202,6 +158,9 @@ void Parser::idList()
 		}
 		else
 		{
+			param.setType(tokens[it].getName());//sets param type
+			param.setValue(tokens[it].getContent());//sets param value
+			pred.addParameter(param); //pushes param onto vector
 			it++;
 			ignoreComments();
 			idList();
@@ -222,6 +181,7 @@ void Parser::fact()
 	}
 	else
 	{
+		pred.setName(tokens[it].getContent());//sets fact name
 		it++;
 		ignoreComments();
 	}
@@ -240,6 +200,9 @@ void Parser::fact()
 	}
 	else
 	{
+		param.setType(tokens[it].getName());//sets param type
+		param.setValue(tokens[it].getContent());//sets param value
+		pred.addParameter(param); //pushes param onto vector
 		it++;
 		ignoreComments();
 	}
@@ -260,6 +223,8 @@ void Parser::fact()
 	}
 	else
 	{
+		dp.addFact(pred);//pushes pred onto facts vector
+		pred.clearParams();//get ready for next predicate
 		it++;
 		ignoreComments();
 	}
@@ -295,6 +260,8 @@ void Parser::rule()
 	}
 
 	predicate();
+	my_rule.addPredicate(pred);//adds predicate to vector in my_rule
+	pred.clearParams();//get ready for next predicate
 	predicateList();
 
 	if (tokens[it].getName() != "PERIOD")
@@ -303,6 +270,8 @@ void Parser::rule()
 	}
 	else
 	{
+		dp.addRule(my_rule);//adds my_rule to vector
+		my_rule.clearPredicates();//get ready for next my_rule
 		it++;
 		ignoreComments();
 	}
@@ -331,6 +300,7 @@ void Parser::headPredicate()
 	}
 	else
 	{
+		pred.setName(tokens[it].getContent());//sets headPred name
 		it++;
 		ignoreComments();
 	}
@@ -349,6 +319,9 @@ void Parser::headPredicate()
 	}
 	else
 	{
+		param.setType(tokens[it].getName());//sets param type
+		param.setValue(tokens[it].getContent());//sets param value
+		pred.addParameter(param); //pushes param onto vector
 		it++;
 		ignoreComments();
 	}
@@ -360,6 +333,8 @@ void Parser::headPredicate()
 	}
 	else
 	{
+		my_rule.setHeadPred(pred);//sets pred as headPred for my_rule
+		pred.clearParams();//get ready for next predicate
 		it++;
 		ignoreComments();
 	}
@@ -374,6 +349,7 @@ void Parser::predicate()
 	}
 	else
 	{
+		pred.setName(tokens[it].getContent());//sets predicate name
 		it++;
 		ignoreComments();
 	}
@@ -388,6 +364,10 @@ void Parser::predicate()
 	}
 
 	parameter();
+	//need to use sstream because may have nested expressions
+	param.setValue(param_stream.str());//sets param value to stream
+	param_stream.str("");//clears sstream to be usable again
+	pred.addParameter(param); //pushes param onto vector
 	parameterList();
 
 	if (tokens[it].getName() != "RIGHT_PAREN")
@@ -409,6 +389,8 @@ void Parser::predicateList()
 		it++;
 		ignoreComments();
 		predicate();
+		my_rule.addPredicate(pred);//adds predicate to vector in my_rule
+		pred.clearParams();//get ready for next predicate
 		predicateList();
 	}
 	else if (tokens[it].getName() != "PERIOD") //if next token is RIGHT_PAREN, move on. Otherwise throw
@@ -422,15 +404,21 @@ void Parser::parameter()
 {
 	if (tokens[it].getName() == "ID")
 	{
+		param.setType(tokens[it].getName());//sets param type
+		param_stream << tokens[it].getContent();//puts value onto stream
 		it++;
 		ignoreComments();
 	}
-	else if (tokens[it].getName() == "LEFT_PAREN")
+	else if (tokens[it].getName() == "LEFT_PAREN")//NEED TO FIGURE THIS OUT!
 	{
+		//will set param type after Right_Paren in expression() call.
+		param_stream << tokens[it].getContent();//puts value onto stream
 		expression();
 	}
 	else if (tokens[it].getName() == "STRING")
 	{
+		param.setType(tokens[it].getName());//sets param type
+		param_stream << tokens[it].getContent();//puts value onto stream
 		it++;
 		ignoreComments();
 	}
@@ -448,6 +436,10 @@ void Parser::parameterList()
 		it++;
 		ignoreComments();
 		parameter();
+		//need to use sstream because may have nested expressions
+		param.setValue(param_stream.str());//sets param value to stream
+		param_stream.str("");//clears sstream to be usable again
+		pred.addParameter(param); //pushes param onto vector
 		parameterList();
 	}
 	else if (tokens[it].getName() != "RIGHT_PAREN") //if next token is RIGHT_PAREN, move on. Otherwise throw
@@ -479,6 +471,8 @@ void Parser::expression()
 	}
 	else
 	{
+		param.setType("expression");//sets param type
+		param_stream << tokens[it].getContent();//puts value onto stream
 		it++;
 		ignoreComments();
 	}
@@ -489,11 +483,13 @@ void Parser::myOperator()
 {
 	if (tokens[it].getName() == "ADD")
 	{
+		param_stream << tokens[it].getContent();//puts value onto stream
 		it++;
 		ignoreComments();
 	}
 	else if (tokens[it].getName() == "MULTIPLY")
 	{
+		param_stream << tokens[it].getContent();//puts value onto stream
 		it++;
 		ignoreComments();
 	}
@@ -509,6 +505,8 @@ void Parser::query()
 	if (tokens[it].getName() == "ID")
 	{
 		predicate();
+		dp.addQuery(pred);//adds query to vector
+		pred.clearParams();//get ready for next predicate
 	}
 	else
 	{
@@ -549,6 +547,9 @@ void Parser::stringList()
 
 		if (tokens[it].getName() == "STRING")
 		{
+			param.setType(tokens[it].getName());//sets param type
+			param.setValue(tokens[it].getContent());//sets param value
+			pred.addParameter(param); //pushes param onto vector
 			it++;
 			ignoreComments();
 			stringList();
@@ -577,5 +578,6 @@ string Parser::validate()
 		output << "Failure!\n  " << t.getToken(); //two spaces instead of \t
 		return output.str();
 	}
-	return "Success!";
+	dp.setDomain();//sets domain and gets ready to print output
+	return dp.toString();//"Success!";
 }

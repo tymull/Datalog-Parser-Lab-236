@@ -13,9 +13,12 @@ private:
   string name;
   vector <Parameter> params;
 public:
-  Predicate(string name, Parameter param);
+  Predicate();//string name, Parameter param);
   ~Predicate();
   string getName();
   vector <Parameter> getParams();
+  void setName(string name);
   void addParameter(Parameter param);
+  void clearParams();
+  string toString();
 };
